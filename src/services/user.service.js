@@ -75,3 +75,35 @@ export const userDetailsService = async (req) => {
      throw new Error(error.message);   
     }
 }
+
+export const loginService = async (req) => {
+    try {
+        // console.log(req.body,'reqBodyInLoginService');
+        const {email,password} = req.body;
+        if(!email || !password){
+            throw new Error('Email and password are required');
+        }
+        const user = await User.findOne({email});
+        if(!user){
+            throw new Error('User not found');
+        }
+
+        const isMatch = await bcrypt.compare(password,user.password);
+        if(!isMatch){
+            throw new Error('Invalid credentials');
+        }
+
+        const accessToken = generateAccessToken(user._id);
+        const refreshToken = generateRefreshToken(user._id);
+
+        user.refreshToken = refreshToken;
+        
+        // save user with new refresh token
+        await user.save();
+
+        return {user,accessToken,refreshToken};
+
+    } catch (error) {
+       throw new Error(error.message); 
+    }
+};
