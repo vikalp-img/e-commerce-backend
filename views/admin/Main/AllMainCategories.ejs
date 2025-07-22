@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+</head>
+<body>
+    <div>
+        <div>
+            <h1>All Main Categories</h1>
+        </div>
+        <div>
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Main Category Name</th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <% mainCategories.forEach(function(category) { %>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap"><%= category.name %></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right">
+                                <a href="/api/admin/edit-main/<%= category._id %>" class="text-blue-600 hover:text-blue-900">Edit</a>
+                                <form action="/api/admin/delete-main/<%= category._id %>" method="POST" class="inline-block">
+                                    <button type="submit" class="text-red-600 hover:text-red-900 ml-2">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+            <div class="mt-4">
+                <a href="/api/admin/add-main" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add Main Category</a>
+            
+                
+        </div>
+    </div>
+</body>
+</html>

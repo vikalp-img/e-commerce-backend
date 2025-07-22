@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - All Categories</title>
+  <!-- Tailwind CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+  <div class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded shadow">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold">All Categories</h1>
+      <a href="/api/admin/add-category" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add Category</a>
+    </div>
+
+    <ul class="space-y-4">
+      <% categories.forEach(function(category) { %>
+        <li class="p-4 border rounded bg-gray-50">
+          <div class="flex justify-between items-center mb-2">
+            <div> 
+              <strong class="text-lg"><%= category.name %></strong>
+              <span class="ml-2 text-gray-600"> - <%= category.gender %></span>
+            </div>
+            <div class="space-x-2">
+                
+              <a href="/api/admin/edit-category/<%= category._id %>" class="text-blue-500 hover:underline">Edit</a>
+              <form action="/api/admin/delete-category/<%= category._id %>" method="POST" class="inline">
+                <!-- return confirm('Are you sure?') shows popup; true=submit, false=cancel -->
+                <button type="submit" onclick="return confirm('Are you sure?')" class="text-red-500 hover:underline">Delete</button>
+              </form>
+            </div>
+          </div>
+          <% if(category.subCategory && category.subCategory.length) { %>
+            <div class="flex flex-wrap gap-2">
+                <p>Sub Categories:</p>
+              <% category.subCategory.forEach(function(sub) { %>
+                <span class="flex bg-blue-100 text-gray-800 text-sm px-2 py-1 rounded">
+                  <%= sub %>
+                </span>
+              <% }); %>
+            </div>
+          <% } %>
+        </li>
+      <% }); %>
+    </ul>
+  </div>
+
+</body>
+</html>
